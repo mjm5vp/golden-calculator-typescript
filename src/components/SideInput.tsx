@@ -1,3 +1,4 @@
+import { gravityDependencies } from 'mathjs';
 import React from 'react';
 import {
 	View,
@@ -8,26 +9,34 @@ import {
 } from 'react-native';
 import colors from '../utils/colors';
 import * as constants from '../utils/constants';
+import * as Haptics from 'expo-haptics';
 
 type SideInputProps = {
 	labelText: string;
-	pressView: () => {};
-	highlightStyle: ViewStyle;
+	pressView: () => void;
+	// highlightStyle: ViewStyle;
+	isSelected: boolean;
 	value: string;
 };
 
 const SideInput = ({
 	labelText,
 	pressView,
-	highlightStyle,
+	// highlightStyle,
+	isSelected = false,
 	value,
 }: SideInputProps) => {
+	const onPress = () => {
+		Haptics.selectionAsync();
+		pressView();
+	};
+
 	return (
 		<View style={styles.sideInputContainer}>
 			<Text style={styles.labelText}>{labelText}</Text>
 			<View style={styles.elevationInput}>
-				<TouchableOpacity onPress={pressView}>
-					<View style={[styles.textInput, highlightStyle]}>
+				<TouchableOpacity onPress={onPress}>
+					<View style={[styles.textInput, isSelected ? styles.selected : null]}>
 						<Text allowFontScaling style={styles.text} numberOfLines={3}>
 							{value}
 						</Text>
@@ -51,6 +60,7 @@ const styles = StyleSheet.create({
 		marginRight: 30,
 	},
 	textInput: {
+		backgroundColor: colors.gb.black,
 		width: constants.TEXT_INPUT_WIDTH,
 		height: constants.TEXT_INPUT_HEIGHT,
 		justifyContent: 'center',
@@ -75,6 +85,9 @@ const styles = StyleSheet.create({
 		fontWeight: '800',
 		fontFamily: 'zaio',
 		color: colors.gb.darkestGold,
+	},
+	selected: {
+		backgroundColor: colors.myGold.gold,
 	},
 });
 

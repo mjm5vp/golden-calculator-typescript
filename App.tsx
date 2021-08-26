@@ -25,6 +25,7 @@ import colors from './src/utils/colors';
 import * as constants from './src/utils/constants';
 
 import NumberPad from './src/components/NumberPad';
+import GoldenRatioCalc from './src/golden-ratio/GoldenRatioCalc';
 
 const cacheImages = (images: string[]) => {
 	return images.map((image) => {
@@ -76,14 +77,7 @@ export default function App() {
 	return (
 		<TouchableWithoutFeedback>
 			<View style={styles.container}>
-				<NumberPad
-					buttonPress={() => {}}
-					deleteButton={() => {}}
-					clearButton={() => {}}
-					updateDecimals={() => {}}
-					decimals={1}
-					flipCard={() => {}}
-				/>
+				<GoldenRatioCalc />
 			</View>
 		</TouchableWithoutFeedback>
 	);

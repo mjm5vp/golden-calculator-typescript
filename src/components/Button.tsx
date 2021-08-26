@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as constants from '../utils/constants';
 import colors from '../utils/colors';
+import * as Haptics from 'expo-haptics';
 
 type ButtonProps = {
 	onPress: () => void;
@@ -10,8 +11,14 @@ type ButtonProps = {
 
 const Button = ({ onPress, children }: ButtonProps) => {
 	const { buttonStyle, textStyle } = styles;
+
+	const onButtonPress = () => {
+		Haptics.impactAsync();
+		onPress();
+	};
+
 	return (
-		<TouchableOpacity onPress={onPress} style={buttonStyle}>
+		<TouchableOpacity onPress={onButtonPress} style={buttonStyle}>
 			<Text style={textStyle}>{children}</Text>
 		</TouchableOpacity>
 	);
