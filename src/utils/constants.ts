@@ -12,14 +12,18 @@ export const ASPECT_RATIO = SCREEN_HEIGHT / SCREEN_WIDTH;
 
 // Calculator
 export const CALC_WIDTH =
-	ASPECT_RATIO > phi ? SCREEN_WIDTH * 0.9 : SCREEN_WIDTH * 0.7;
+	ASPECT_RATIO > phi ? SCREEN_WIDTH * 0.95 : SCREEN_WIDTH * 0.7;
 export const CALC_HEIGHT = CALC_WIDTH * phi;
 
 // Rect Screen
-export const RECT_WIDTH = CALC_WIDTH * 0.9;
+export const RECT_WIDTH = CALC_WIDTH * 0.95;
 export const RECT_HEIGHT = RECT_WIDTH / phi;
-export const RECT_CONTAINER_WIDTH = CALC_WIDTH - 8;
-// export const RECT_CONTAINER_HEIGHT = CALC_HEIGHT - 20;
+
+// Spiral Segments
+export const LONG_SEGMENT_LENGTH = RECT_WIDTH - RECT_HEIGHT;
+export const SHORT_SEGMENT_LENGTH = RECT_HEIGHT - LONG_SEGMENT_LENGTH;
+
+// Text Inputs
 export const TEXT_INPUT_HEIGHT = RECT_HEIGHT / 3 - RECT_HEIGHT * 0.05;
 export const TEXT_INPUT_WIDTH = TEXT_INPUT_HEIGHT * phi;
 

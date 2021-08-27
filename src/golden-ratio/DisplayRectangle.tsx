@@ -5,19 +5,28 @@ import {
 	TouchableOpacity,
 	ViewStyle,
 	Text,
+	View,
 } from 'react-native';
-import { InputField } from './GoldenRatioCalc';
+import { CalcValue, InputField } from './GoldenRatioCalc';
 
 import * as constants from '../utils/constants';
 import colors from '../utils/colors';
 import spiral from '../../assets/images/golden-spiral.png';
+import SpiralSegment from '../components/SpiralSegment';
 
 type DisplayRectangleProps = {
 	inputField: InputField;
+	calcValue: CalcValue;
+	onPress: (inputField: InputField) => void;
 	children: React.ReactNode;
 };
 
-const DisplayRectangle = ({ inputField, children }: DisplayRectangleProps) => {
+const DisplayRectangle = ({
+	inputField,
+	calcValue,
+	onPress,
+	children,
+}: DisplayRectangleProps) => {
 	const [borderStyle, setBorderStyle] = useState<ViewStyle>(
 		styles.defaultStyle
 	);
@@ -43,26 +52,36 @@ const DisplayRectangle = ({ inputField, children }: DisplayRectangleProps) => {
 			source={spiral}
 			style={[styles.displayRectangle, borderStyle]}
 		>
-			<TouchableOpacity style={styles.longButton}></TouchableOpacity>
-			<TouchableOpacity style={styles.totalButton}></TouchableOpacity>
-			{/* {children} */}
+			<SpiralSegment
+				inputField={InputField.TOTAL}
+				isSelected={inputField === InputField.TOTAL}
+				value={calcValue.total}
+				onPress={() => onPress(InputField.TOTAL)}
+			/>
+			<View style={styles.longShortContainer}>
+				<SpiralSegment
+					inputField={InputField.LONG}
+					isSelected={inputField === InputField.LONG}
+					value={calcValue.long}
+					onPress={() => onPress(InputField.LONG)}
+				/>
+				<SpiralSegment
+					inputField={InputField.SHORT}
+					isSelected={inputField === InputField.SHORT}
+					value={calcValue.short}
+					onPress={() => onPress(InputField.SHORT)}
+				/>
+			</View>
 		</ImageBackground>
 	);
 };
 
 const styles = StyleSheet.create({
-	longButton: {
-		width: constants.RECT_WIDTH / 1.618 - 12,
-		height: constants.RECT_HEIGHT - 12,
-		backgroundColor: 'rgba(255,220,115, .5)',
-	},
-	totalButton: {
-		width: constants.RECT_WIDTH / 1.618 - 12,
-		height: constants.RECT_HEIGHT - 12,
-		backgroundColor: 'rgba(255,220,115, .5)',
+	longShortContainer: {
+		alignItems: 'flex-end',
 	},
 	displayRectangle: {
-		borderWidth: 12,
+		borderWidth: 0,
 		borderRadius: 5,
 		height: constants.RECT_HEIGHT,
 		justifyContent: 'flex-end',

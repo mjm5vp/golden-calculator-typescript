@@ -6,7 +6,7 @@ import SideInput from '../components/SideInput';
 import NumberPad from '../components/NumberPad';
 import DisplayRectangle from './DisplayRectangle';
 
-type CalcValue = {
+export type CalcValue = {
 	short: string;
 	long: string;
 	total: string;
@@ -76,7 +76,7 @@ const GoldenRatioCalc = () => {
 	const shortCalcUpdate = (short: string) => {
 		const shortNum = Number(short);
 		const long = formatInput(shortNum * phi);
-		const total = formatInput(shortNum * 2 + Number(long) * 2);
+		const total = formatInput(shortNum + Number(long));
 
 		setCalcValue({ short, long, total });
 	};
@@ -84,7 +84,7 @@ const GoldenRatioCalc = () => {
 	const longCalcUpdate = (long: string) => {
 		const longNum = Number(long);
 		const short = formatInput(longNum / phi);
-		const total = formatInput(Number(short) * 2 + longNum * 2);
+		const total = formatInput(Number(short) + longNum);
 
 		setCalcValue({ short, long, total });
 	};
@@ -107,7 +107,11 @@ const GoldenRatioCalc = () => {
 
 	return (
 		<View style={styles.rectContainer}>
-			<DisplayRectangle inputField={inputField}>
+			<DisplayRectangle
+				inputField={inputField}
+				calcValue={calcValue}
+				onPress={(inputField: InputField) => setInputField(inputField)}
+			>
 				<>
 					{/* <SideInput
 						pressView={() => setInputField(InputField.SHORT)}
