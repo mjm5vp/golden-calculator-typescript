@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import {
+	ImageBackground,
+	StyleSheet,
+	TouchableOpacity,
+	ViewStyle,
+	Text,
+} from 'react-native';
 import { InputField } from './GoldenRatioCalc';
 
 import * as constants from '../utils/constants';
 import colors from '../utils/colors';
+import spiral from '../../assets/images/golden-spiral.png';
 
 type DisplayRectangleProps = {
 	inputField: InputField;
@@ -31,16 +38,36 @@ const DisplayRectangle = ({ inputField, children }: DisplayRectangleProps) => {
 		}
 	}, [inputField]);
 
-	return <View style={[styles.displayRectangle, borderStyle]}>{children}</View>;
+	return (
+		<ImageBackground
+			source={spiral}
+			style={[styles.displayRectangle, borderStyle]}
+		>
+			<TouchableOpacity style={styles.longButton}></TouchableOpacity>
+			<TouchableOpacity style={styles.totalButton}></TouchableOpacity>
+			{/* {children} */}
+		</ImageBackground>
+	);
 };
 
 const styles = StyleSheet.create({
+	longButton: {
+		width: constants.RECT_WIDTH / 1.618 - 12,
+		height: constants.RECT_HEIGHT - 12,
+		backgroundColor: 'rgba(255,220,115, .5)',
+	},
+	totalButton: {
+		width: constants.RECT_WIDTH / 1.618 - 12,
+		height: constants.RECT_HEIGHT - 12,
+		backgroundColor: 'rgba(255,220,115, .5)',
+	},
 	displayRectangle: {
-		backgroundColor: colors.rectBackground,
-		borderWidth: 8,
+		borderWidth: 12,
 		borderRadius: 5,
 		height: constants.RECT_HEIGHT,
-		justifyContent: 'space-around',
+		justifyContent: 'flex-end',
+		alignItems: 'flex-end',
+		flexDirection: 'row',
 		shadowOffset: { height: 1, width: 0 },
 		shadowColor: 'black',
 		shadowOpacity: 1.0,

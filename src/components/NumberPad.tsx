@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Entypo, Feather } from '@expo/vector-icons';
 
 import { Button, IconButton } from './Button';
-import ButtonRow from './ButtonRow';
 import * as constants from '../utils/constants';
 import colors from '../utils/colors';
+import { column } from 'mathjs';
 
 type NumberPadProps = {
 	buttonPress: (number: string) => void;
@@ -13,7 +13,6 @@ type NumberPadProps = {
 	clearButton: () => void;
 	updateDecimals: () => void;
 	decimals: number;
-	flipCard: () => void;
 };
 
 const NumberPad: React.FC<NumberPadProps> = ({
@@ -22,48 +21,56 @@ const NumberPad: React.FC<NumberPadProps> = ({
 	clearButton,
 	updateDecimals,
 	decimals,
-	flipCard,
 }) => {
 	return (
 		<View style={styles.container}>
-			<ButtonRow
-				numbers={[7, 8, 9]}
-				onPress={(value: string) => buttonPress(value)}
-			/>
-
-			<ButtonRow
-				numbers={[4, 5, 6]}
-				onPress={(value: string) => buttonPress(value)}
-			/>
-
-			<ButtonRow
-				numbers={[1, 2, 3]}
-				onPress={(value: string) => buttonPress(value)}
-			/>
+			{[
+				[7, 8, 9],
+				[4, 5, 6],
+				[1, 2, 3],
+			].map((row: number[], i: number) => {
+				return (
+					<View style={styles.rowContainer} key={i}>
+						{row.map((num: number) => {
+							return (
+								<Button key={num} onPress={() => buttonPress(String(num))}>
+									{num}
+								</Button>
+							);
+						})}
+					</View>
+				);
+			})}
 
 			<View style={styles.rowContainer}>
 				<IconButton onPress={() => buttonPress('.')}>
-					<Entypo name="dot-single" color="white" />
+					<Entypo
+						name="dot-single"
+						color="white"
+						size={constants.BUTTON_FONT_SIZE}
+					/>
 				</IconButton>
 				<Button onPress={() => buttonPress('0')}>0</Button>
 				<IconButton onPress={() => deleteButton()}>
-					<Feather name="delete" type="feather" color="white" />
+					<Feather
+						name="delete"
+						type="feather"
+						color="white"
+						size={constants.BUTTON_FONT_SIZE}
+					/>
 				</IconButton>
 			</View>
 
 			<View style={styles.rowContainer}>
 				<IconButton onPress={() => updateDecimals()}>
-					<Text
-						adjustsFontSizeToFit
-						numberOfLines={1}
-						style={styles.decimalsText}
-					>
-						Decimals:
-					</Text>
-					<Text style={styles.decimalsText}>{decimals}</Text>
+					<View style={styles.decimalsContainer}>
+						<Text adjustsFontSizeToFit style={styles.decimalsText}>
+							Decimals:
+						</Text>
+						<Text style={styles.decimalsText}>{decimals}</Text>
+					</View>
 				</IconButton>
 				<Button onPress={() => clearButton()}>Clear</Button>
-				<Button onPress={() => flipCard()}>Flip</Button>
 			</View>
 		</View>
 	);
@@ -72,18 +79,21 @@ const NumberPad: React.FC<NumberPadProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		height: constants.NUMBER_PAD_HEIGHT,
-		width: constants.RECT_CONTAINER_WIDTH,
 		justifyContent: 'space-around',
 		alignItems: 'center',
 	},
 	rowContainer: {
-		width: constants.RECT_CONTAINER_WIDTH,
 		flexDirection: 'row',
+	},
+	decimalsContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	decimalsText: {
 		fontSize: constants.BUTTON_HEIGHT / 4,
-		// fontSize: 10,
+		marginTop: 5,
 		fontFamily: 'orbitron',
 		color: colors.gb.white,
 	},

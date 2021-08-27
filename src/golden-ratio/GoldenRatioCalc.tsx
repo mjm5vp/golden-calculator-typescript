@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { phi } from 'mathjs';
 
-import * as constants from '../utils/constants';
-import colors from '../utils/colors';
 import SideInput from '../components/SideInput';
 import NumberPad from '../components/NumberPad';
 import DisplayRectangle from './DisplayRectangle';
@@ -51,13 +49,12 @@ const GoldenRatioCalc = () => {
 	};
 
 	const clearButtonPress = () => {
-		setInputField(InputField.SHORT);
-		clearCalcValues();
+		setCalcValue({ short: '', long: '', total: '' });
 	};
 
 	const updateCalcValue = (text: string) => {
 		if (!text) {
-			clearCalcValues();
+			clearButtonPress();
 			return;
 		}
 
@@ -104,10 +101,6 @@ const GoldenRatioCalc = () => {
 		return isNaN(number) ? 'ERROR' : String(number.toFixed(decimals));
 	};
 
-	const clearCalcValues = () => {
-		setCalcValue({ short: '', long: '', total: '' });
-	};
-
 	const getSelectedCalcValue = (): string => {
 		return calcValue[inputField];
 	};
@@ -116,7 +109,7 @@ const GoldenRatioCalc = () => {
 		<View style={styles.rectContainer}>
 			<DisplayRectangle inputField={inputField}>
 				<>
-					<SideInput
+					{/* <SideInput
 						pressView={() => setInputField(InputField.SHORT)}
 						isSelected={inputField === InputField.SHORT}
 						labelText="Short Side"
@@ -133,7 +126,7 @@ const GoldenRatioCalc = () => {
 						isSelected={inputField === InputField.TOTAL}
 						labelText="Total"
 						value={calcValue.total}
-					/>
+					/> */}
 				</>
 			</DisplayRectangle>
 
@@ -141,7 +134,6 @@ const GoldenRatioCalc = () => {
 				buttonPress={(text) => numberButtonPress(text)}
 				clearButton={() => clearButtonPress()}
 				deleteButton={() => deleteButtonPress()}
-				flipCard={() => {}}
 				updateDecimals={() => decimalsButtonPress()}
 				decimals={decimals}
 			/>
@@ -151,10 +143,9 @@ const GoldenRatioCalc = () => {
 
 const styles = StyleSheet.create({
 	rectContainer: {
-		// height: constants.RECT_HEIGHT,
-		// width: constants.RECT_CONTAINER_WIDTH,
-		justifyContent: 'space-around',
 		alignItems: 'center',
+		justifyContent: 'space-around',
+		flex: 1,
 		marginTop: 10,
 		marginBottom: 10,
 	},

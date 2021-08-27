@@ -10,16 +10,17 @@ export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const ASPECT_RATIO = SCREEN_HEIGHT / SCREEN_WIDTH;
 
-export const CALC_WIDTH =
-	ASPECT_RATIO > 1.6 ? SCREEN_WIDTH * 0.9 : SCREEN_WIDTH * 0.7;
-
 // Calculator
+export const CALC_WIDTH =
+	ASPECT_RATIO > phi ? SCREEN_WIDTH * 0.9 : SCREEN_WIDTH * 0.7;
 export const CALC_HEIGHT = CALC_WIDTH * phi;
+
+// Rect Screen
 export const RECT_WIDTH = CALC_WIDTH * 0.9;
 export const RECT_HEIGHT = RECT_WIDTH / phi;
 export const RECT_CONTAINER_WIDTH = CALC_WIDTH - 8;
 // export const RECT_CONTAINER_HEIGHT = CALC_HEIGHT - 20;
-export const TEXT_INPUT_HEIGHT = RECT_HEIGHT / 3 - 15;
+export const TEXT_INPUT_HEIGHT = RECT_HEIGHT / 3 - RECT_HEIGHT * 0.05;
 export const TEXT_INPUT_WIDTH = TEXT_INPUT_HEIGHT * phi;
 
 // Video
@@ -27,9 +28,10 @@ export const VIDEO_WIDTH = RECT_WIDTH * 0.7;
 export const VIDEO_HEIGHT = VIDEO_WIDTH / phi;
 
 // Number Pad
-export const NUMBER_PAD_HEIGHT = CALC_HEIGHT - RECT_HEIGHT - 40;
+export const NUMBER_PAD_HEIGHT = CALC_HEIGHT - RECT_HEIGHT - CALC_HEIGHT * 0.05;
 export const BUTTON_HEIGHT = (NUMBER_PAD_HEIGHT - 80) / 5;
 export const BUTTON_WIDTH = BUTTON_HEIGHT * phi;
+export const BUTTON_FONT_SIZE = BUTTON_HEIGHT / 3;
 // export const BUTTON_WIDTH = (RECT_CONTAINER_WIDTH * 0.7) / 3;
 // export const BUTTON_HEIGHT = BUTTON_WIDTH / phi;
 

@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
 	},
 	textStyle: {
 		color: colors.gb.white,
-		fontSize: constants.BUTTON_HEIGHT / 3,
+		// fontSize: constants.BUTTON_HEIGHT / 3,
+		fontSize: constants.BUTTON_FONT_SIZE,
 		fontFamily: 'orbitron',
 	},
 	viewStyle: {
