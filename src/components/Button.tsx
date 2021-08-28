@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as constants from '../utils/constants';
-import colors from '../utils/colors';
+import * as colors from '../utils/colors';
 import * as Haptics from 'expo-haptics';
 
 type ButtonProps = {
@@ -35,30 +35,29 @@ const IconButton = ({ onPress, children }: ButtonProps) => {
 
 const styles = StyleSheet.create({
 	buttonStyle: {
+		alignItems: 'center',
 		backgroundColor: colors.gb.black,
 		borderWidth: 2,
 		borderRadius: 5,
 		borderColor: colors.gb.white,
-		width: constants.BUTTON_WIDTH,
 		height: constants.BUTTON_HEIGHT,
+		justifyContent: 'center',
 		marginLeft: 5,
 		marginRight: 5,
-		justifyContent: 'center',
-		alignItems: 'center',
 		shadowColor: colors.gb.black,
 		shadowOffset: { height: 10, width: 0 },
 		shadowOpacity: 0.6,
 		shadowRadius: 2,
+		width: constants.BUTTON_WIDTH,
 	},
 	textStyle: {
 		color: colors.gb.white,
-		// fontSize: constants.BUTTON_HEIGHT / 3,
 		fontSize: constants.BUTTON_FONT_SIZE,
 		fontFamily: 'orbitron',
 	},
 	viewStyle: {
-		justifyContent: 'center',
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	elevation: {
 		borderTopWidth: 0,

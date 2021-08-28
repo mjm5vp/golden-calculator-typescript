@@ -7,79 +7,66 @@ import {
 	Text,
 	View,
 } from 'react-native';
-import { CalcValue, InputField } from './GoldenRatioCalc';
 
 import * as constants from '../utils/constants';
-import colors from '../utils/colors';
-import spiral from '../../assets/images/golden-spiral.png';
+import * as colors from '../utils/colors';
+import spiral from '../assets/images/golden-spiral.png';
 import SpiralSegment from '../components/SpiralSegment';
 
 type DisplayRectangleProps = {
-	inputField: InputField;
-	calcValue: CalcValue;
-	onPress: (inputField: InputField) => void;
-	children: React.ReactNode;
+	calcValue: string[];
+	selectedSegment: number;
+	onPress: (segmentId: number) => void;
 };
 
 const DisplayRectangle = ({
-	inputField,
 	calcValue,
+	selectedSegment,
 	onPress,
-	children,
 }: DisplayRectangleProps) => {
-	const [borderStyle, setBorderStyle] = useState<ViewStyle>(
-		styles.defaultStyle
-	);
-
-	useEffect(() => {
-		switch (inputField) {
-			case InputField.SHORT:
-				setBorderStyle(styles.shortStyle);
-				return;
-			case InputField.LONG:
-				setBorderStyle(styles.longStyle);
-				return;
-			case InputField.TOTAL:
-				setBorderStyle(styles.totalStyle);
-				return;
-			default:
-				return;
-		}
-	}, [inputField]);
-
 	return (
-		<ImageBackground
-			source={spiral}
-			style={[styles.displayRectangle, borderStyle]}
-		>
+		<ImageBackground source={spiral} style={[styles.displayRectangle]}>
 			<SpiralSegment
-				inputField={InputField.TOTAL}
-				isSelected={inputField === InputField.TOTAL}
-				value={calcValue.total}
-				onPress={() => onPress(InputField.TOTAL)}
+				segmentId={4}
+				value={calcValue[4]}
+				isSelected={selectedSegment === 4}
+				onPress={() => onPress(4)}
 			/>
-			<View style={styles.longShortContainer}>
+			<View style={styles.container_2_3}>
 				<SpiralSegment
-					inputField={InputField.LONG}
-					isSelected={inputField === InputField.LONG}
-					value={calcValue.long}
-					onPress={() => onPress(InputField.LONG)}
+					segmentId={3}
+					value={calcValue[3]}
+					isSelected={selectedSegment === 3}
+					onPress={() => onPress(3)}
 				/>
-				<SpiralSegment
-					inputField={InputField.SHORT}
-					isSelected={inputField === InputField.SHORT}
-					value={calcValue.short}
-					onPress={() => onPress(InputField.SHORT)}
-				/>
+				<View style={styles.container_1_2}>
+					<SpiralSegment
+						segmentId={2}
+						value={calcValue[2]}
+						isSelected={selectedSegment === 2}
+						onPress={() => onPress(2)}
+					/>
+					<View style={styles.container_0_1}>
+						<SpiralSegment
+							segmentId={1}
+							value={calcValue[1]}
+							isSelected={selectedSegment === 1}
+							onPress={() => onPress(1)}
+						/>
+						<SpiralSegment
+							segmentId={0}
+							value={calcValue[0]}
+							isSelected={selectedSegment === 0}
+							onPress={() => onPress(0)}
+						/>
+					</View>
+				</View>
 			</View>
 		</ImageBackground>
 	);
 };
 
 const styles = StyleSheet.create({
-	longShortContainer: {
-		alignItems: 'flex-end',
-	},
 	displayRectangle: {
 		borderWidth: 0,
 		borderRadius: 5,
@@ -92,17 +79,14 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1.0,
 		width: constants.RECT_WIDTH,
 	},
-	defaultStyle: {
-		borderColor: colors.gb.black,
+	container_2_3: {
+		alignItems: 'flex-end',
 	},
-	shortStyle: {
-		borderRightColor: constants.borderHighlight,
+	container_1_2: {
+		flexDirection: 'row-reverse',
 	},
-	longStyle: {
-		borderTopColor: constants.borderHighlight,
-	},
-	totalStyle: {
-		borderColor: constants.borderHighlight,
+	container_0_1: {
+		flexDirection: 'column-reverse',
 	},
 });
 

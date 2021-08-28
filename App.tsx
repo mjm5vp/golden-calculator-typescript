@@ -4,7 +4,6 @@ import {
 	TouchableWithoutFeedback,
 	Image,
 	StyleSheet,
-	Text,
 } from 'react-native';
 import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
@@ -13,7 +12,7 @@ import { Entypo, Feather } from '@expo/vector-icons';
 
 // Images
 import goldenImage from './assets/images/goldenImage.png';
-import title from './assets/images/title.png';
+import spiral from './assets/images/golden-spiral.png';
 
 // Fonts
 import zaio from './assets/fonts/Zaio.ttf';
@@ -21,10 +20,9 @@ import orbitron from './assets/fonts/Orbitron-Regular.ttf';
 import goldenFont from './assets/fonts/Golden-Ratio-Font.ttf';
 
 // Styles
-import colors from './src/utils/colors';
+import * as colors from './src/utils/colors';
 import * as constants from './src/utils/constants';
 
-import NumberPad from './src/components/NumberPad';
 import GoldenRatioCalc from './src/golden-ratio/GoldenRatioCalc';
 
 const cacheImages = (images: string[]) => {
@@ -46,11 +44,7 @@ export default function App() {
 	const [isReady, setIsReady] = useState(false);
 
 	const loadAssetsAsync = async () => {
-		const imageAssets = cacheImages([
-			goldenImage,
-			title,
-			'https://s3.amazonaws.com/golden-calculator-video/golden-calculator.png',
-		]);
+		const imageAssets = cacheImages([goldenImage, spiral]);
 
 		const fontAssets = cacheFonts([
 			Entypo.font,
