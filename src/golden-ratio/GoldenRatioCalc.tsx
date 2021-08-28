@@ -2,36 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { phi } from 'mathjs';
 
-import SideInput from '../components/SideInput';
 import NumberPad from '../components/NumberPad';
 import DisplayRectangle from './DisplayRectangle';
 
-export type CalcValue = {
-	short: string;
-	long: string;
-	total: string;
-};
-
-export enum InputField {
-	SHORT = 'short',
-	LONG = 'long',
-	TOTAL = 'total',
-}
-
 const GoldenRatioCalc = () => {
-	const [calcValue, setCalcValue] = useState<CalcValue>({
-		short: '',
-		long: '',
-		total: '',
-	});
-	const [decimals, setDecimals] = useState(5);
-	const [inputField, setInputField] = useState(InputField.SHORT);
+	const [calcValue, setCalcValue] = useState(['', '', '5.1', '', '']);
+	const [decimals, setDecimals] = useState(1);
+	const [selectedSegment, setSelectedSegment] = useState(2);
 
 	useEffect(() => {
 		updateCalcValue(getSelectedCalcValue());
 	}, [decimals]);
 
 	const numberButtonPress = (text: string) => {
+		if (text === '.' && getSelectedCalcValue().includes('.')) {
+			return;
+		}
 		const newText = getSelectedCalcValue() + text;
 
 		updateCalcValue(newText);
@@ -49,7 +35,7 @@ const GoldenRatioCalc = () => {
 	};
 
 	const clearButtonPress = () => {
-		setCalcValue({ short: '', long: '', total: '' });
+		setCalcValue(['', '', '', '', '']);
 	};
 
 	const updateCalcValue = (text: string) => {
@@ -58,43 +44,21 @@ const GoldenRatioCalc = () => {
 			return;
 		}
 
-		switch (inputField) {
-			case InputField.SHORT:
-				shortCalcUpdate(text);
-				return;
-			case InputField.LONG:
-				longCalcUpdate(text);
-				return;
-			case InputField.TOTAL:
-				totalCalcUpdate(text);
-				return;
-			default:
-				return;
+		let newCalcValue = [];
+		newCalcValue[selectedSegment] = Number(text);
+
+		for (let i = selectedSegment + 1; i < calcValue.length; i++) {
+			newCalcValue[i] = newCalcValue[i - 1] * phi;
 		}
-	};
 
-	const shortCalcUpdate = (short: string) => {
-		const shortNum = Number(short);
-		const long = formatInput(shortNum * phi);
-		const total = formatInput(shortNum + Number(long));
-
-		setCalcValue({ short, long, total });
-	};
-
-	const longCalcUpdate = (long: string) => {
-		const longNum = Number(long);
-		const short = formatInput(longNum / phi);
-		const total = formatInput(Number(short) + longNum);
-
-		setCalcValue({ short, long, total });
-	};
-
-	const totalCalcUpdate = (total: string) => {
-		const totalNum = Number(total);
-		const short = formatInput(totalNum / (1 + phi));
-		const long = formatInput(Number(short) * phi);
-
-		setCalcValue({ short, long, total });
+		for (let i = selectedSegment - 1; i >= 0; i--) {
+			newCalcValue[i] = newCalcValue[i + 1] / phi;
+		}
+		setCalcValue(
+			newCalcValue.map((num: number, i: number) =>
+				i === selectedSegment ? text : formatInput(num)
+			)
+		);
 	};
 
 	const formatInput = (number: number): string => {
@@ -102,37 +66,16 @@ const GoldenRatioCalc = () => {
 	};
 
 	const getSelectedCalcValue = (): string => {
-		return calcValue[inputField];
+		return calcValue[selectedSegment];
 	};
 
 	return (
 		<View style={styles.rectContainer}>
 			<DisplayRectangle
-				inputField={inputField}
 				calcValue={calcValue}
-				onPress={(inputField: InputField) => setInputField(inputField)}
-			>
-				<>
-					{/* <SideInput
-						pressView={() => setInputField(InputField.SHORT)}
-						isSelected={inputField === InputField.SHORT}
-						labelText="Short Side"
-						value={calcValue.short}
-					/>
-					<SideInput
-						pressView={() => setInputField(InputField.LONG)}
-						isSelected={inputField === InputField.LONG}
-						labelText="Long Side"
-						value={calcValue.long}
-					/>
-					<SideInput
-						pressView={() => setInputField(InputField.TOTAL)}
-						isSelected={inputField === InputField.TOTAL}
-						labelText="Total"
-						value={calcValue.total}
-					/> */}
-				</>
-			</DisplayRectangle>
+				selectedSegment={selectedSegment}
+				onPress={(segmentId: number) => setSelectedSegment(segmentId)}
+			/>
 
 			<NumberPad
 				buttonPress={(text) => numberButtonPress(text)}
