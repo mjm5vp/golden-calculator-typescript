@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Entypo, Feather } from '@expo/vector-icons';
 
 import { Button, IconButton } from './Button';
 import * as constants from '../utils/constants';
 import * as colors from '../utils/colors';
-import { column } from 'mathjs';
 
 type NumberPadProps = {
 	buttonPress: (number: string) => void;

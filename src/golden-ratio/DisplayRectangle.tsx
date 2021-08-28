@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-	ImageBackground,
-	StyleSheet,
-	TouchableOpacity,
-	ViewStyle,
-	Text,
-	View,
-} from 'react-native';
+import React from 'react';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 
 import * as constants from '../utils/constants';
-import * as colors from '../utils/colors';
-import spiral from '../assets/images/golden-spiral.png';
+import spiral from '../../assets/images/golden-spiral.png';
 import SpiralSegment from '../components/SpiralSegment';
 
 type DisplayRectangleProps = {

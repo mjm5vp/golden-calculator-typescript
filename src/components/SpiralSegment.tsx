@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-	StyleSheet,
-	Text,
-	TextStyle,
-	TouchableOpacity,
-	View,
-	ViewStyle,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import * as constants from '../utils/constants';
 import * as colors from '../utils/colors';
