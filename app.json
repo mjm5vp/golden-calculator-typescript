@@ -4,11 +4,11 @@
     "slug": "golden-calculator",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/golden-calculator-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/golden-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffdc73"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,12 +17,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mjm5vp.goldencalculator"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/images/golden-calculator-icon.png",
+        "backgroundColor": "#ffdc73"
       }
     },
     "web": {
